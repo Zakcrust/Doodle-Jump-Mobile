@@ -8,21 +8,32 @@ public class PlatformGenerator : MonoBehaviour {
 
 	public int numberOfPlatforms = 200;
 	public float levelWidth = 10f;
-	public float minY = 20.0f;
-	public float maxY = 30.0f;
+	public float minY = 15.0f;
+	public float maxY = 120.0f;
+	private Vector3 spawnPosition = new Vector3();
 
 	// Use this for initialization
 	void Start () {
-
-		Vector3 spawnPosition = new Vector3();
+		spawnPosition.y = minY;
+		spawnPosition.x = Random.Range(-levelWidth, levelWidth);
+		spawnPlatform(spawnPosition);
 
 		for (int i = 0; i < numberOfPlatforms; i++)
 		{
-			spawnPosition.y += minY;
+			spawnPosition.y += maxY;
 			spawnPosition.x = Random.Range(-levelWidth, levelWidth);
-			GameObject currentPrefab = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
-			platformPrefab.gameObject.SetActive(true);
-			spawnPosition.y = currentPrefab.gameObject.transform.position.y;
+			spawnPlatform(spawnPosition);
+			
 		}
 	}
+
+	private void spawnPlatform(Vector3 spawnPos)
+	{
+	spawnPos.x = Random.Range(-levelWidth, levelWidth);
+	GameObject currentPrefab = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
+	platformPrefab.gameObject.SetActive(true);
+	spawnPos.y += currentPrefab.gameObject.transform.position.y;
+	}
 }
+
+
